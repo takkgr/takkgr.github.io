@@ -18,7 +18,7 @@
 <title>TAKU / takkgr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+JP:wght@200;300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=JetBrains+Mono:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Noto+Sans+JP:wght@200;300;400&display=swap">
 
 <style>
 :root{
@@ -36,7 +36,7 @@
 
   --display:"Michroma","Eurostile","Trebuchet MS",sans-serif;
   --mono:"JetBrains Mono","SFMono-Regular",Menlo,monospace;
-  --body:"Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --body:"Zen Kaku Gothic New","Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
 
   --gutter:clamp(20px,5vw,64px);
   --max:1080px;
@@ -51,7 +51,9 @@ body{
   font-family:var(--body);
   font-size:17px;
   font-weight:300;
-  line-height:1.9;
+  line-height:1.95;
+  letter-spacing:.03em;
+  font-feature-settings:"palt" 1;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
@@ -142,7 +144,7 @@ body{
 }
 .tagline{
   font-size:clamp(1.12rem,2.9vw,1.6rem); font-weight:300;
-  letter-spacing:.06em; max-width:26em; margin:0 0 2.6rem;
+  letter-spacing:.1em; max-width:26em; margin:0 0 2.6rem;
   line-break:strict; overflow-wrap:normal;
   text-wrap:balance;
 }
@@ -196,7 +198,8 @@ section{
   color:var(--muted); margin-left:auto;
 }
 
-.lead{color:var(--muted); max-width:56ch; margin:0 0 2.4rem; font-size:1.06rem; line-height:1.95}
+.lead{color:var(--muted); max-width:52ch; margin:0 0 2.4rem;
+  font-size:1.06rem; line-height:2.05; letter-spacing:.05em}
 .lead strong{color:var(--text); font-weight:400}
 
 /* metrics */
@@ -243,7 +246,7 @@ section{
   color:var(--dim); display:block; margin-bottom:.3rem;
   font-variant-numeric:tabular-nums;
 }
-.post .t{font-size:1.06rem; line-height:1.75; color:var(--text)}
+.post .t{font-size:1.06rem; line-height:1.8; letter-spacing:.04em; color:var(--text)}
 .post:hover .t,.post:focus-visible .t{color:#fff}
 
 /* magazine tiles */
@@ -252,8 +255,18 @@ section{
   border:1px solid var(--line); margin-top:2.8rem;
   grid-template-columns:repeat(4,1fr);
 }
-.mag{background:var(--ground); padding:1rem 1.1rem}
-.mag b{display:block; font-weight:400; font-size:.97rem; letter-spacing:.04em}
+.mag{
+  display:flex; flex-direction:column; justify-content:space-between; gap:.35rem;
+  min-height:5.2rem; background:var(--ground); padding:1.05rem 1.15rem;
+  text-decoration:none; color:inherit; position:relative;
+  transition:background .3s,box-shadow .3s,transform .12s;
+}
+.mag::after{
+  content:"↗"; position:absolute; right:1rem; top:1rem;
+  font-size:.7rem; color:var(--glow); opacity:0; transition:opacity .3s;
+}
+.mag:hover::after,.mag:focus-visible::after{opacity:.9}
+.mag b{display:block; font-weight:400; font-size:.97rem; letter-spacing:.04em; padding-right:1.2rem}
 .mag i{
   font-family:var(--mono); font-style:normal; font-size:.75rem;
   color:var(--muted); font-variant-numeric:tabular-nums;
@@ -311,76 +324,103 @@ footer{
   color:var(--dim); display:flex; flex-wrap:wrap; gap:.4rem 1.6rem;
 }
 
-/* click glow — ゆっくり広がる青い波 → 蛍光灯が点くような白い閃光 */
+/* click — 池に水滴が落ちたときのように、静かに広がって消える */
 .ripple{
   position:fixed; z-index:70; pointer-events:none;
-  width:24px; height:24px; margin:-12px 0 0 -12px; border-radius:50%;
-  border:2px solid #cfe9ff;
-  box-shadow:
-    0 0 18px #fff,
-    0 0 46px var(--glow),
-    0 0 120px var(--glow-2);
-  animation:ripple 1.5s cubic-bezier(.10,.62,.20,1) forwards;
+  width:18px; height:18px; margin:-9px 0 0 -9px; border-radius:50%;
+  border:1px solid rgba(150,210,255,.5);
+  animation:ripple 2.1s cubic-bezier(.22,.61,.36,1) both;
 }
-.ripple.slow{animation-duration:1.9s; animation-delay:.14s; border-color:var(--glow); opacity:0}
+.ripple.r2{animation-duration:2.7s; animation-delay:.2s; border-color:rgba(110,180,255,.34)}
+.ripple.r3{animation-duration:3.2s; animation-delay:.44s; border-color:rgba(90,160,255,.22)}
 @keyframes ripple{
-  0%{transform:scale(.22); opacity:1}
-  35%{opacity:.7}
-  100%{transform:scale(22); opacity:0}
+  0%{transform:scale(.4); opacity:0}
+  14%{opacity:.7}
+  100%{transform:scale(15); opacity:0}
 }
-.spark{
+/* 落ちた一点のくぼみ。ごく淡く、すぐ消える */
+.dimple{
   position:fixed; z-index:69; pointer-events:none;
-  width:340px; height:340px; margin:-170px 0 0 -170px; border-radius:50%;
+  width:130px; height:130px; margin:-65px 0 0 -65px; border-radius:50%;
   background:radial-gradient(circle,
-    rgba(255,255,255,.85) 0%,
-    rgba(150,215,255,.55) 18%,
-    rgba(58,168,255,.32) 38%,
-    rgba(21,82,255,.14) 58%,
-    transparent 74%);
-  animation:spark 1.25s cubic-bezier(.12,.6,.2,1) forwards;
+    rgba(160,215,255,.26) 0%,
+    rgba(90,160,255,.10) 45%,
+    transparent 70%);
+  animation:dimple 1.2s ease-out both;
 }
-@keyframes spark{
-  0%{opacity:0; transform:scale(.2)}
-  14%{opacity:1}
-  100%{opacity:0; transform:scale(2.4)}
-}
-/* 蛍光灯：一度ちらついてから、白くパッと灯る */
-.tube{
-  position:fixed; inset:0; z-index:71; pointer-events:none;
-  mix-blend-mode:screen;
-  background:
-    radial-gradient(circle at var(--fx,50%) var(--fy,50%),
-      rgba(255,255,255,.95) 0%,
-      rgba(224,242,255,.62) 16%,
-      rgba(150,205,255,.30) 40%,
-      rgba(90,170,255,.12) 62%,
-      transparent 78%),
-    #dcecff;
-  animation:tube 1.5s ease-out forwards;
-}
-@keyframes tube{
-  0%{opacity:0}
-  38%{opacity:0}
-  43%{opacity:.14}
-  48%{opacity:.02}
-  66%{opacity:.02}
-  71%{opacity:.62}
-  80%{opacity:.34}
-  100%{opacity:0}
+@keyframes dimple{
+  0%{opacity:.85; transform:scale(.35)}
+  100%{opacity:0; transform:scale(1.6)}
 }
 
+/* タップの手応え — 押した面が沈んで、内側から灯る */
+.post,.mag,.jump a,.cta,.follow a{-webkit-tap-highlight-color:transparent}
+.mag:active,.post:active,.follow a:active,.jump a:active,.cta:active{transform:scale(.985)}
+
 .jump a:active,.cta:active{
-  color:#fff; background:rgba(58,168,255,.3);
-  border-color:#cfe9ff;
-  box-shadow:0 0 14px #fff,0 0 46px var(--glow),0 0 110px var(--glow-2),
-             inset 0 0 34px rgba(58,168,255,.32);
+  color:#fff; background:rgba(58,168,255,.16);
+  border-color:var(--glow);
+  box-shadow:0 0 22px rgba(58,168,255,.35),inset 0 0 26px rgba(58,168,255,.16);
 }
+.mag:hover,.mag:focus-visible{
+  background:rgba(58,168,255,.07);
+  box-shadow:inset 0 0 30px rgba(58,168,255,.12);
+}
+.mag:active{
+  background:rgba(58,168,255,.16);
+  box-shadow:inset 0 0 36px rgba(58,168,255,.26),0 0 20px rgba(58,168,255,.22);
+}
+.mag:active b{color:#fff; text-shadow:0 0 14px var(--glow-soft)}
+.post:active{background:rgba(58,168,255,.07)}
 .post:active::before{opacity:1}
-.post:active .t{color:#fff; text-shadow:0 0 16px var(--glow-soft)}
-.mag{transition:background .25s,box-shadow .25s}
-.mag:hover{background:rgba(58,168,255,.07); box-shadow:inset 0 0 26px rgba(58,168,255,.12)}
-.mag:active{background:rgba(58,168,255,.16); box-shadow:inset 0 0 30px rgba(58,168,255,.3)}
-.flinks a:active{color:#fff; text-shadow:0 0 20px var(--glow)}
+.post:active .t{color:#fff; text-shadow:0 0 16px rgba(58,168,255,.6)}
+.flinks a:active{color:#fff; text-shadow:0 0 18px var(--glow)}
+
+/* follow */
+.follow{
+  display:grid; gap:1px; background:var(--line);
+  border:1px solid var(--line);
+  grid-template-columns:repeat(4,1fr);
+}
+.follow a{
+  display:block; background:var(--ground); padding:1.35rem 1.25rem;
+  text-decoration:none; color:inherit; position:relative;
+  transition:background .3s,box-shadow .3s,transform .12s;
+}
+.follow a b{
+  display:block; font-family:var(--display); font-size:.82rem;
+  letter-spacing:.16em; color:#fff; font-weight:400; margin-bottom:.5rem;
+  text-shadow:0 0 14px rgba(58,168,255,.45);
+}
+.follow a span{
+  display:block; font-family:var(--mono); font-size:.74rem;
+  letter-spacing:.1em; color:var(--muted);
+}
+.follow a i{
+  display:block; font-style:normal; font-family:var(--mono);
+  font-size:.66rem; letter-spacing:.18em; color:var(--glow);
+  margin-top:.9rem; opacity:.75; transition:opacity .3s;
+}
+.follow a b.x{
+  font-family:var(--mono); font-weight:500; font-size:1.15rem; letter-spacing:.1em;
+}
+.follow a i.one{
+  color:#fff; opacity:1;
+  text-shadow:0 0 12px var(--glow),0 0 30px rgba(21,82,255,.6);
+}
+.follow a:has(i.one){
+  background:rgba(58,168,255,.06);
+  box-shadow:inset 0 0 30px rgba(58,168,255,.10);
+}
+.follow a:hover,.follow a:focus-visible{
+  background:rgba(58,168,255,.08);
+  box-shadow:inset 0 0 34px rgba(58,168,255,.14);
+}
+.follow a:hover i,.follow a:focus-visible i{opacity:1}
+.follow a:active{
+  background:rgba(58,168,255,.18);
+  box-shadow:inset 0 0 40px rgba(58,168,255,.28),0 0 24px rgba(58,168,255,.24);
+}
 
 /* reveal */
 .rv{opacity:0; transform:translateY(22px); transition:opacity .9s ease,transform .9s ease}
@@ -389,7 +429,7 @@ footer{
 :focus-visible{outline:1px solid var(--glow); outline-offset:3px}
 
 @media (max-width:900px){
-  .mags{grid-template-columns:repeat(2,1fr)}
+  .mags,.follow{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:720px){
   .cols{grid-template-columns:1fr}
@@ -425,6 +465,7 @@ footer{
       <a href="#write">書く / note</a>
       <a href="#shoot">撮る / instagram</a>
       <a href="#daily">日々 / x</a>
+      <a href="#follow">follow</a>
     </nav>
   </div>
   <div class="scrollcue">SCROLL ↓</div>
@@ -484,14 +525,14 @@ footer{
   </div>
 
   <div class="mags">
-    <div class="mag"><b>暮らしの断片</b><i>154</i></div>
-    <div class="mag"><b>アイテム</b><i>119</i></div>
-    <div class="mag"><b>写真</b><i>35</i></div>
-    <div class="mag"><b>テクノロジーとSNSの話</b><i>30</i></div>
-    <div class="mag"><b>ケアマネの日常</b><i>20</i></div>
-    <div class="mag"><b>子育て・家族・自分のこと</b><i>18</i></div>
-    <div class="mag"><b>介護のバイブル</b><i>16 ・ 有料</i></div>
-    <div class="mag"><b>お出かけ</b><i>6</i></div>
+    <a class="mag" href="https://note.com/takk_/m/m6d3765ab3e6e" target="_blank" rel="noopener"><b>暮らしの断片</b><i>155</i></a>
+    <a class="mag" href="https://note.com/takk_/m/m354d4588602d" target="_blank" rel="noopener"><b>アイテム</b><i>120</i></a>
+    <a class="mag" href="https://note.com/takk_/m/md4baddfaa84c" target="_blank" rel="noopener"><b>写真</b><i>35</i></a>
+    <a class="mag" href="https://note.com/takk_/m/ma73f01ac09f7" target="_blank" rel="noopener"><b>テクノロジーとSNSの話</b><i>30</i></a>
+    <a class="mag" href="https://note.com/takk_/m/m81abab977808" target="_blank" rel="noopener"><b>ケアマネの日常</b><i>20</i></a>
+    <a class="mag" href="https://note.com/takk_/m/m444ded077bb6" target="_blank" rel="noopener"><b>子育て・家族・自分のこと</b><i>18</i></a>
+    <a class="mag" href="https://note.com/takk_/m/mb27320ad10ed" target="_blank" rel="noopener"><b>介護のバイブル</b><i>16 ・ 有料</i></a>
+    <a class="mag" href="https://note.com/takk_/m/m142a6a311e9b" target="_blank" rel="noopener"><b>お出かけ</b><i>6</i></a>
   </div>
 
   <a class="cta" href="https://note.com/takk_" target="_blank" rel="noopener">noteを読む</a>
@@ -571,6 +612,28 @@ footer{
   <a class="cta" href="https://x.com/takkgr" target="_blank" rel="noopener">Xを見る</a>
 </section>
 
+<div class="rule"></div>
+
+<!-- ══ FOLLOW ══ -->
+<section id="follow" class="rv">
+  <div class="head">
+    <span class="en">Follow</span>
+    <h2>繋がる</h2>
+  </div>
+
+  <p class="lead">続きが気になったら、ここを押してください。<strong>Xはこのボタンから直接フォローできます。</strong>ほかは開いた先の「フォロー」を押してもらう形です。</p>
+
+  <div class="follow">
+    <a href="https://x.com/intent/follow?screen_name=takkgr" target="_blank" rel="noopener">
+      <b class="x">X</b><span>@takkgr</span><i class="one">フォローする →</i></a>
+    <a href="https://note.com/takk_" target="_blank" rel="noopener">
+      <b>note</b><span>@takk_</span><i>記事を読む →</i></a>
+    <a href="https://www.instagram.com/takkgr/" target="_blank" rel="noopener">
+      <b>Instagram</b><span>@takkgr</span><i>写真を見る →</i></a>
+    <a href="https://www.threads.net/@takkgr" target="_blank" rel="noopener">
+      <b>Threads</b><span>@takkgr</span><i>投稿を見る →</i></a>
+  </div>
+</section>
 </main>
 
 <div class="rule"></div>
@@ -593,7 +656,7 @@ footer{
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   document.addEventListener('pointerdown', function(e){
     if (reduce.matches) return;
-    ['spark','ripple','ripple slow'].forEach(function(cls){
+    ['dimple','ripple','ripple r2','ripple r3'].forEach(function(cls){
       var el = document.createElement('span');
       el.className = cls;
       el.style.left = e.clientX + 'px';
@@ -601,12 +664,6 @@ footer{
       document.body.appendChild(el);
       el.addEventListener('animationend', function(){ el.remove(); });
     });
-    var tube = document.createElement('span');
-    tube.className = 'tube';
-    tube.style.setProperty('--fx', e.clientX + 'px');
-    tube.style.setProperty('--fy', e.clientY + 'px');
-    document.body.appendChild(tube);
-    tube.addEventListener('animationend', function(){ tube.remove(); });
   }, {passive:true});
 })();
 
