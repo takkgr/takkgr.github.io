@@ -6,7 +6,6 @@
 <meta name="description" content="書くことと、撮ることと、その日のこと。ケアマネジャー TAKU（@takkgr）が書くnote、撮るInstagram、日々のX。">
 <meta name="theme-color" content="#02040D">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://takkgr.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2302040D'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%233AA8FF' stroke-width='6'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TAKU / takkgr">
@@ -14,13 +13,8 @@
 <meta property="og:description" content="書くことと、撮ることと、その日のこと。">
 <meta property="og:url" content="https://takkgr.github.io/">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://takkgr.github.io/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="TAKU — 書くことと、撮ることと、その日のこと。">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@takkgr">
-<meta name="twitter:image:alt" content="TAKU — 書くことと、撮ることと、その日のこと。">
 <title>TAKU / takkgr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,18 +27,12 @@
   --line:rgba(90,160,255,.26);
   --line-2:rgba(110,185,255,.52);
   --text:#DCEAFF;
-  --muted:#9AB4D8;
-  --dim:#7897C2;
+  --muted:#7C9AC4;
+  --dim:#5470A0;
   --glow:#3AA8FF;
   --glow-2:#1552FF;
   --glow-soft:rgba(58,168,255,.72);
   --glow-faint:rgba(58,168,255,.32);
-
-  --motion-step:160ms;
-  --motion-beat:800ms;
-  --motion-cycle:8s;
-  --motion-long:16s;
-  --motion-ease:cubic-bezier(.22,.61,.36,1);
 
   --display:"Michroma","Eurostile","Trebuchet MS",sans-serif;
   --mono:"JetBrains Mono","SFMono-Regular",Menlo,monospace;
@@ -81,7 +69,7 @@ body{
 }
 .vignette{
   position:fixed; inset:0; z-index:59; pointer-events:none;
-  background:radial-gradient(ellipse 86% 68% at 50% 40%,transparent 36%,rgba(2,4,13,.42) 100%);
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,transparent 34%,rgba(2,4,13,.66) 100%);
 }
 
 /* ── hero ─────────────────────────────────────── */
@@ -106,7 +94,7 @@ body{
   background:
     repeating-linear-gradient(to right,var(--glow-faint) 0 1px,transparent 1px 80px),
     repeating-linear-gradient(to bottom,var(--glow-faint) 0 1px,transparent 1px 80px);
-  animation:drift var(--motion-long) linear infinite;
+  animation:drift 14s linear infinite;
   filter:drop-shadow(0 0 6px rgba(58,168,255,.5));
 }
 @keyframes drift{from{background-position:0 0,0 0}to{background-position:0 0,0 80px}}
@@ -120,28 +108,11 @@ body{
     rgba(21,82,255,.14) 44%,
     rgba(21,82,255,.05) 62%,
     transparent 74%);
-  animation:halo var(--motion-cycle) ease-in-out infinite;
+  animation:halo 9s ease-in-out infinite;
 }
 @keyframes halo{0%,100%{opacity:.7}50%{opacity:1}}
 
 .hero-inner{position:relative; z-index:2; width:100%; max-width:var(--max); margin:0 auto}
-
-.hero [data-sequence="0"]{--sequence:0}
-.hero [data-sequence="1"]{--sequence:1}
-.hero [data-sequence="2"]{--sequence:2}
-.hero [data-sequence="3"]{--sequence:3}
-.hero [data-sequence="4"]{--sequence:4}
-.hero [data-sequence]:not(.beam){
-  animation:signal-in var(--motion-beat) var(--motion-ease) both;
-  animation-delay:calc(var(--sequence) * var(--motion-step));
-}
-@keyframes signal-in{
-  0%{opacity:0; transform:translateY(8px); filter:blur(4px)}
-  48%{opacity:.72}
-  72%{opacity:1; filter:blur(0)}
-  84%{opacity:.68}
-  100%{opacity:1; transform:none; filter:none}
-}
 
 .mark{
   font-family:var(--display);
@@ -161,13 +132,9 @@ body{
   height:2px; width:min(620px,100%);
   background:linear-gradient(to right,#fff,var(--glow) 22%,rgba(21,82,255,.35) 65%,transparent);
   box-shadow:0 0 10px #fff,0 0 26px var(--glow),0 0 70px var(--glow-2),0 0 120px rgba(21,82,255,.5);
-  transform-origin:left center;
-  animation:
-    beam-in var(--motion-beat) steps(4,end) both,
-    breathe var(--motion-cycle) ease-in-out var(--motion-beat) infinite;
+  animation:breathe 8s ease-in-out infinite;
   margin-bottom:clamp(20px,4vh,34px);
 }
-@keyframes beam-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
 
 .handle{
@@ -274,21 +241,10 @@ section{
   opacity:0; transition:opacity .3s;
 }
 .post:hover::before,.post:focus-visible::before{opacity:1}
-.post.latest{
-  padding-left:14px;
-  border-color:var(--line-2);
-  background:linear-gradient(90deg,rgba(58,168,255,.075),transparent 78%);
-}
-.post.latest::before{opacity:1}
 .post .meta{
   font-family:var(--mono); font-size:.72rem; letter-spacing:.16em;
   color:var(--dim); display:block; margin-bottom:.3rem;
   font-variant-numeric:tabular-nums;
-}
-.latest-label{
-  display:inline-block; margin-right:.9em; padding-right:.9em;
-  color:#fff; border-right:1px solid var(--line-2);
-  text-shadow:0 0 12px var(--glow-soft);
 }
 .post .t{font-size:1.06rem; line-height:1.8; letter-spacing:.04em; color:var(--text)}
 .post:hover .t,.post:focus-visible .t{color:#fff}
@@ -319,7 +275,7 @@ section{
 /* gear */
 .gear{
   display:grid; gap:clamp(24px,4vw,44px);
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 }
 .gear h3{
   font-family:var(--mono); font-size:.74rem; letter-spacing:.24em;
@@ -373,10 +329,10 @@ footer{
   position:fixed; z-index:70; pointer-events:none;
   width:18px; height:18px; margin:-9px 0 0 -9px; border-radius:50%;
   border:1px solid rgba(150,210,255,.5);
-  animation:ripple calc(var(--motion-beat) * 2) var(--motion-ease) both;
+  animation:ripple 2.1s cubic-bezier(.22,.61,.36,1) both;
 }
-.ripple.r2{animation-duration:calc(var(--motion-beat) * 3); animation-delay:var(--motion-step); border-color:rgba(110,180,255,.34)}
-.ripple.r3{animation-duration:calc(var(--motion-beat) * 4); animation-delay:calc(var(--motion-step) * 2); border-color:rgba(90,160,255,.22)}
+.ripple.r2{animation-duration:2.7s; animation-delay:.2s; border-color:rgba(110,180,255,.34)}
+.ripple.r3{animation-duration:3.2s; animation-delay:.44s; border-color:rgba(90,160,255,.22)}
 @keyframes ripple{
   0%{transform:scale(.4); opacity:0}
   14%{opacity:.7}
@@ -390,7 +346,7 @@ footer{
     rgba(160,215,255,.26) 0%,
     rgba(90,160,255,.10) 45%,
     transparent 70%);
-  animation:dimple var(--motion-beat) ease-out both;
+  animation:dimple 1.2s ease-out both;
 }
 @keyframes dimple{
   0%{opacity:.85; transform:scale(.35)}
@@ -467,7 +423,7 @@ footer{
 }
 
 /* reveal */
-.rv{opacity:0; transform:translateY(18px); transition:opacity var(--motion-beat) var(--motion-ease),transform var(--motion-beat) var(--motion-ease)}
+.rv{opacity:0; transform:translateY(22px); transition:opacity .9s ease,transform .9s ease}
 .rv.in{opacity:1; transform:none}
 
 :focus-visible{outline:1px solid var(--glow); outline-offset:3px}
@@ -501,11 +457,11 @@ footer{
   <div class="floor"></div>
   <div class="halo"></div>
   <div class="hero-inner">
-    <h1 class="mark" data-sequence="1">TAKU</h1>
-    <div class="beam" data-sequence="0"></div>
-    <p class="handle" data-sequence="2">@takkgr</p>
-    <p class="tagline" data-sequence="3"><span class="ln">書くことと、撮ることと、その日のこと。</span></p>
-    <nav class="jump" data-sequence="4">
+    <h1 class="mark">TAKU</h1>
+    <div class="beam"></div>
+    <p class="handle">@takkgr</p>
+    <p class="tagline"><span class="ln">書くことと、撮ることと、その日のこと。</span></p>
+    <nav class="jump">
       <a href="#write">書く / note</a>
       <a href="#shoot">撮る / instagram</a>
       <a href="#daily">日々 / x</a>
@@ -526,10 +482,10 @@ footer{
     <span class="via">note.com/takk_</span>
   </div>
 
-  <p class="lead">ケアマネジャーとして働きながら、<strong>ほぼ毎日</strong>書いています。カメラの話、介護の現場で考えたこと、家族のこと、AIの使い方。2024年の秋から積み上げて、いまは635本になりました。</p>
+  <p class="lead">ケアマネジャーとして働きながら、<strong>ほぼ毎日</strong>書いています。カメラの話、介護の現場で考えたこと、家族のこと、AIの使い方。2024年の秋から積み上げて、いまは639本になりました。</p>
 
   <dl class="metrics">
-    <div><dt>Articles</dt><dd>635</dd></div>
+    <div><dt>Articles</dt><dd>639</dd></div>
     <div><dt>Followers</dt><dd>699</dd></div>
     <div><dt>Magazines</dt><dd>8</dd></div>
     <div><dt>Since</dt><dd>2024<span>.10</span></dd></div>
@@ -538,18 +494,18 @@ footer{
   <div class="cols">
     <div>
       <div class="colhead">最新の記事</div>
-      <a class="post latest" href="https://note.com/takk_/n/nedd8d22a035a" target="_blank" rel="noopener">
-        <span class="meta"><span class="latest-label">LATEST</span>2026.08.31</span>
-        <span class="t">ジャケットは30年変わっていない。変わったのは私のほうだった</span></a>
-      <a class="post" href="https://note.com/takk_/n/n5fc11f313b47" target="_blank" rel="noopener">
-        <span class="meta">2026.08.31</span>
-        <span class="t">無印のリュックの外ポケットに入っている5つ。MOFTとCIOとTILTAで、だいたい足りている</span></a>
-      <a class="post" href="https://note.com/takk_/n/n3924dcb592d5" target="_blank" rel="noopener">
-        <span class="meta">2026.08.30</span>
-        <span class="t">Comu Action Proの録音ボタンは、押さなくてよかった。それでも頭は静かにならない</span></a>
-      <a class="post" href="https://note.com/takk_/n/ndca0b534b864" target="_blank" rel="noopener">
-        <span class="meta">2026.08.29</span>
-        <span class="t">Comu Action Proのことばかり書いている。1週間使って、押し損ねの不安が消えた</span></a>
+      <a class="post" href="https://note.com/takk_/n/nf9eeac9eeb1c" target="_blank" rel="noopener">
+        <span class="meta">2026.09.04</span>
+        <span class="t">Fitbit Airを2週間。腕の上を空けたら、やりたいことのほうが増えていった</span></a>
+      <a class="post" href="https://note.com/takk_/n/n7ad2ce851a46" target="_blank" rel="noopener">
+        <span class="meta">2026.09.03</span>
+        <span class="t">Comuが、録音アプリから記録を育てる道具に変わってきた</span></a>
+      <a class="post" href="https://note.com/takk_/n/nff89b342a1bd" target="_blank" rel="noopener">
+        <span class="meta">2026.09.02</span>
+        <span class="t">PLAUDとComuを使っているのに、Mori Journaling AIが気になって仕方がない</span></a>
+      <a class="post" href="https://note.com/takk_/n/nedee4afb3322" target="_blank" rel="noopener">
+        <span class="meta">2026.09.01</span>
+        <span class="t">文字起こしの精度が上がった気がする。Comu Action Proを10日使って、変わったのは私のほうかもしれない</span></a>
     </div>
     <div>
       <div class="colhead">よく読まれている記事</div>
@@ -601,17 +557,17 @@ footer{
   </dl>
 
   <div class="gear">
-    <div class="gear-group" data-kind="bodies">
+    <div>
       <h3>Bodies</h3>
       <ul>
-        <li><b>Nikon Zf</b></li>
+        <li><b>Nikon Zf</b><br>純正グリップ GR-1</li>
         <li><b>Nikon ZR</b></li>
         <li><b>RICOH GR III</b></li>
         <li><b>DJI Osmo Pocket 3</b></li>
         <li><b>DJI Osmo Action 6</b></li>
       </ul>
     </div>
-    <div class="gear-group" data-kind="nikkor-z">
+    <div>
       <h3>NIKKOR Z</h3>
       <ul>
         <li><b>Z 40mm</b> f/2</li>
@@ -620,7 +576,7 @@ footer{
         <li><b>Z MC 105mm</b> f/2.8 VR S</li>
       </ul>
     </div>
-    <div class="gear-group" data-kind="manual">
+    <div>
       <h3>Manual</h3>
       <ul>
         <li><b>NOKTON 40mm</b> F1.2</li>
@@ -628,12 +584,6 @@ footer{
         <li><b>NOKTON classic 50mm</b> F1.5 II</li>
         <li><b>HELIOS 44-2 58mm</b> F2</li>
         <li><b>Super Takumar 55mm</b> F1.8</li>
-      </ul>
-    </div>
-    <div class="gear-group" data-kind="accessories">
-      <h3>Accessories</h3>
-      <ul>
-        <li><b>Nikon GR-1</b><br>純正グリップ</li>
       </ul>
     </div>
   </div>
@@ -697,7 +647,7 @@ footer{
   </div>
   <div class="stamp">
     <span>TAKU / @takkgr</span>
-    <span>UPDATED 2026.08.31</span>
+    <span>UPDATED 2026.09.04</span>
   </div>
 </footer>
 
